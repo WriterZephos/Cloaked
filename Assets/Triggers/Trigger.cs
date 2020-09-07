@@ -1,5 +1,6 @@
-﻿using Clkd.Assets.Interfaces;
-using System;
+﻿using System;
+
+using Clkd.Assets.Interfaces;
 
 namespace Clkd.Assets
 {
@@ -12,7 +13,7 @@ namespace Clkd.Assets
         public bool Final { get; set; }
         public bool RemoveOnExecute { get; set; }
 
-        public Trigger(string name, Func<bool> condition, Action action, int priority = 3, bool final = false, bool removeOnExecute = true) 
+        public Trigger(string name, Func<bool> condition, Action action, int priority = 3, bool final = false, bool removeOnExecute = true)
         {
             Name = name;
             TriggerCondition = condition;

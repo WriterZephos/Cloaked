@@ -1,5 +1,6 @@
-﻿using Clkd.Assets.Interfaces;
-using System;
+﻿using System;
+
+using Clkd.Assets.Interfaces;
 
 namespace Clkd.Assets
 {

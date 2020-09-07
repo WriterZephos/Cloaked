@@ -1,7 +1,8 @@
-﻿using Clkd.Assets.Interfaces;
-using Clkd.State;
+﻿using System;
+
 using Microsoft.Xna.Framework;
-using System;
+
+using Clkd.State;
 
 namespace Clkd.Assets
 {
@@ -10,7 +11,7 @@ namespace Clkd.Assets
         public Action<GameTime, AbstractTimedEffectState> Action { get; set; }
 
         public TimedAction(
-            Action<GameTime, AbstractTimedEffectState> action, 
+            Action<GameTime, AbstractTimedEffectState> action,
             TimeSpan interval = default(TimeSpan),
             TimeSpan durationLimit = default(TimeSpan),
             int iterationLimit = 1
@@ -21,7 +22,8 @@ namespace Clkd.Assets
 
         public override void Execute(GameTime gameTime, TimedExecutionState timedEffectState)
         {
-            if(Action != null){
+            if (Action != null)
+            {
                 Action(gameTime, timedEffectState);
             }
         }

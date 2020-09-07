@@ -1,9 +1,5 @@
-﻿using Clkd.Main;
-using Clkd.Assets.Interfaces;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
-
 
 namespace Clkd.Assets
 {
@@ -23,6 +19,6 @@ namespace Clkd.Assets
             Frames = frames;
             HoldLastFrame = holdLastFrame;
         }
-        
+
     }
 }

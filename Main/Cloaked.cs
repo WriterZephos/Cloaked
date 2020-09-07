@@ -1,10 +1,9 @@
-﻿using Clkd.Managers;
-using Clkd.Managers.Interfaces;
-using Clkd.Main;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System.Linq;
+
+using Clkd.Managers;
+using Clkd.Managers.Interfaces;
 
 namespace Clkd.Main
 {

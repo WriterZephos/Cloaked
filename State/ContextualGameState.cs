@@ -1,9 +1,10 @@
-﻿using Clkd.Assets;
-using Clkd.Main;
-using Clkd.Utilities;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+
+using Microsoft.Xna.Framework;
+
+using Clkd.Assets;
+using Clkd.Main;
 
 namespace Clkd.State
 {

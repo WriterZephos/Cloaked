@@ -1,5 +1,6 @@
-﻿using Clkd.Assets.Interfaces;
-using System;
+﻿using System;
+
+using Clkd.Assets.Interfaces;
 
 namespace Clkd.Assets
 {
@@ -7,9 +8,11 @@ namespace Clkd.Assets
     {
         public bool PreviouslyPressed { get; set; }
         private bool _pressed;
-        public bool Pressed {
+        public bool Pressed
+        {
             get => _pressed;
-            set {
+            set
+            {
                 // Preserve last value;
                 PreviouslyPressed = Pressed;
                 _pressed = value;

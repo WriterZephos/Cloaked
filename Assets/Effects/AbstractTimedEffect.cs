@@ -1,11 +1,4 @@
-﻿using Clkd.Assets.Interfaces;
-using Clkd.State;
-using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace Clkd.Assets
 {
@@ -16,9 +9,9 @@ namespace Clkd.Assets
         public TimeSpan Interval { get; set; }
 
         public AbstractTimedEffect(
-            TimeSpan interval, 
-            TimeSpan durationLimit = default(TimeSpan), 
-            int iterationLimit = 0) 
+            TimeSpan interval,
+            TimeSpan durationLimit = default(TimeSpan),
+            int iterationLimit = 0)
         {
             DurationLimit = durationLimit;
             IterationLimit = iterationLimit;

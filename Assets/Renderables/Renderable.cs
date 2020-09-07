@@ -1,7 +1,9 @@
-﻿using Clkd.Main;
+﻿using System;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
+
+using Clkd.Main;
 
 namespace Clkd.Assets
 {
@@ -15,14 +17,14 @@ namespace Clkd.Assets
         // Constructor for creating a Renderable.
         // Position properties (X and Y) are optional, as they are likely dynamic.
         // textureName, width, and height are all required to render anything to the screen.
-        public Renderable(SpriteCoordinate spriteCoordinate, RenderableCoordinate renderableCoordinate, 
+        public Renderable(SpriteCoordinate spriteCoordinate, RenderableCoordinate renderableCoordinate,
                                 bool isOffset = true)
         {
             var texture = Cloaked.TextureManager.GetTexture(spriteCoordinate.TextureId);
             Initialize(texture, spriteCoordinate, renderableCoordinate);
         }
 
-        public Renderable(Texture2D texture, SpriteCoordinate spriteCoordinate, 
+        public Renderable(Texture2D texture, SpriteCoordinate spriteCoordinate,
                                 RenderableCoordinate renderableCoordinate)
         {
             Initialize(texture, spriteCoordinate, renderableCoordinate);
@@ -40,15 +42,15 @@ namespace Clkd.Assets
         public void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(
-                Texture, 
-                new Rectangle(RenderableCoordinate.GetDrawX(), 
-                              RenderableCoordinate.GetDrawY(), 
-                              RenderableCoordinate.Width, 
+                Texture,
+                new Rectangle(RenderableCoordinate.GetDrawX(),
+                              RenderableCoordinate.GetDrawY(),
+                              RenderableCoordinate.Width,
                               RenderableCoordinate.Height),
-                new Rectangle(SpriteCoordinate.X, 
-                              SpriteCoordinate.Y, 
-                              SpriteCoordinate.Width, 
-                              SpriteCoordinate.Height), 
+                new Rectangle(SpriteCoordinate.X,
+                              SpriteCoordinate.Y,
+                              SpriteCoordinate.Width,
+                              SpriteCoordinate.Height),
                 SpriteCoordinate.Color);
         }
 

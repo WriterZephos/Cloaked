@@ -1,5 +1,4 @@
-﻿using Clkd.Main;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Clkd.Main
@@ -9,7 +8,7 @@ namespace Clkd.Main
         private GameContext ActiveGameContext;
         public Dictionary<string, GameContext> ContextStore { get; set; } = new Dictionary<string, GameContext>();
 
-        public ContextManager() {}
+        public ContextManager() { }
 
         public ContextManager(GameContext startingContext)
         {
@@ -107,7 +106,7 @@ namespace Clkd.Main
             {
                 return ActiveGameContext.GetComponent<T>(id);
             }
-            else if(!activeContextOnly)
+            else if (!activeContextOnly)
             {
                 foreach (GameContext gc in GetContextsRanked())
                 {

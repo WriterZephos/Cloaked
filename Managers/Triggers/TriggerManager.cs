@@ -1,11 +1,9 @@
-﻿using Clkd.Managers.Interfaces;
-using Clkd.Assets.Interfaces;
-using Microsoft.Xna.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using Clkd.Main;
-using Clkd.Assets;
-using Microsoft.Xna.Framework.Graphics;
+
+using Microsoft.Xna.Framework;
+
+using Clkd.Assets.Interfaces;
 
 namespace Clkd.Managers
 {
@@ -41,17 +39,18 @@ namespace Clkd.Managers
 
         public override void Update(GameTime gameTime)
         {
-            while(Events.Count > 0)
+            while (Events.Count > 0)
             {
                 string eventName = Events.Dequeue();
-                
+
                 if (Subscriptions.TryGetValue(eventName, out List<ITrigger> triggerList))
                 {
                     List<ITrigger> sortedList = triggerList.OrderByDescending((t) => t.Priority).ToList();
 
-                    foreach(ITrigger trigger in sortedList)
+                    foreach (ITrigger trigger in sortedList)
                     {
-                        if (trigger.Evaluate() && trigger.RemoveOnExecute){
+                        if (trigger.Evaluate() && trigger.RemoveOnExecute)
+                        {
                             triggerList.Remove(trigger);
                         }
                         if (trigger.Final)

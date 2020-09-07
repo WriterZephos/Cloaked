@@ -1,8 +1,9 @@
-﻿using Clkd.Assets;
-using Clkd.Assets.Interfaces;
-using Clkd.State;
+﻿using System;
+
 using Microsoft.Xna.Framework;
-using System;
+
+using Clkd.Assets;
+using Clkd.State;
 
 namespace Clkd.Utilities
 {
@@ -20,7 +21,7 @@ namespace Clkd.Utilities
             state.Activated = false;
 
             PrepEffect(gameTime, effect, state);
-            
+
             if ((effect.Interval != null && effect.Interval < state.TimeSinceLast) || effect.Interval == null)
             {
                 // Check if either duration or iteration limit has been reached

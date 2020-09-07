@@ -1,11 +1,11 @@
-﻿using Clkd.Managers.Interfaces;
-using Clkd.Assets;
-using System;
+﻿using System;
 using System.Collections.Generic;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+
+using Clkd.Assets;
 using Clkd.Assets.Interfaces;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace Clkd.Managers
 {
@@ -25,7 +25,7 @@ namespace Clkd.Managers
 
         public KeyboardInputManager RegisterKeyMappings(List<Tuple<KeyMapping, IInputTrigger<KeyStatus>>> mappingTriggerTupleList)
         {
-            foreach(Tuple<KeyMapping, IInputTrigger<KeyStatus>> tuple in mappingTriggerTupleList)
+            foreach (Tuple<KeyMapping, IInputTrigger<KeyStatus>> tuple in mappingTriggerTupleList)
             {
                 RegisterKeyMapping(tuple.Item1, tuple.Item2);
             }
@@ -53,13 +53,13 @@ namespace Clkd.Managers
         {
             KeyboardState state = Keyboard.GetState();
 
-            foreach(KeyMapping km in InputMappings)
+            foreach (KeyMapping km in InputMappings)
             {
                 // Check if all keys are pressed.
                 bool pressed = true;
                 if (km.AnyKey)
                 {
-                    if(state.GetPressedKeys().Length < 1)
+                    if (state.GetPressedKeys().Length < 1)
                     {
                         pressed = false;
                     }
@@ -75,11 +75,11 @@ namespace Clkd.Managers
                         }
                     }
                 }
-                
+
                 // Set updated status.
                 InputStatus[km].Pressed = pressed;
 
-                InputStatus[km].Duration = InputStatus[km].PreviouslyPressed && InputStatus[km].Pressed ? 
+                InputStatus[km].Duration = InputStatus[km].PreviouslyPressed && InputStatus[km].Pressed ?
                     InputStatus[km].Duration += gameTime.ElapsedGameTime :
                     default(TimeSpan);
 

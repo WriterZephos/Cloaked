@@ -1,10 +1,10 @@
-﻿using Clkd.Main;
-using Clkd.Managers.Interfaces;
-using Clkd.Assets;
+﻿using System.Collections.Generic;
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
-using System.Linq;
+
+using Clkd.Assets;
+using Clkd.Main;
 
 namespace Clkd.Managers
 {
@@ -12,7 +12,7 @@ namespace Clkd.Managers
     {
         public GraphicsDeviceManager GraphicsDeviceManager { get; set; }
         public RenderTarget2D RenderTarget { get; set; }
-        
+
         public List<Renderable> RenderablesInScope { get; set; }
         public int RenderMargin { get; set; }
         private int LeftBoundary = 0;
@@ -28,15 +28,15 @@ namespace Clkd.Managers
         public int WindowHeight { get; set; }
         // TODO: use a rectangle for the view and implement a camera system
 
-        public RenderableManager(GraphicsDeviceManager graphicsDeviceManager,  
-            Camera2D camera, 
-            int renderMargin = 0, 
-            int windoWidth = 500, 
+        public RenderableManager(GraphicsDeviceManager graphicsDeviceManager,
+            Camera2D camera,
+            int renderMargin = 0,
+            int windoWidth = 500,
             int windowHeight = 500) : base(true, false, true)
         {
             RenderablesInScope = new List<Renderable>();
             Camera = camera;
-            
+
             RenderMargin = renderMargin;
             WindoWidth = windoWidth;
             WindowHeight = windowHeight;
@@ -130,7 +130,7 @@ namespace Clkd.Managers
             // Orders by z index so things are drawn in the correct order.
             // Also orders by texture to avoid uneccessary switching between textures.
             RenderablesInScope = Cloaked.GetCurrentContext().GetRenderables();
-                //.Where((r) => r.IsActive && IsInScope(r))
+            //.Where((r) => r.IsActive && IsInScope(r))
             RenderablesInScope.Sort();
         }
 

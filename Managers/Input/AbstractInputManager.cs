@@ -1,10 +1,7 @@
-﻿using Clkd.Assets;
+﻿using Microsoft.Xna.Framework;
+
 using Clkd.Assets.Interfaces;
 using Clkd.Main;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
 
 namespace Clkd.Managers
 {
