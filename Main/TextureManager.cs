@@ -23,8 +23,12 @@ namespace Clkd.Managers
                     texture = new Texture2D(Cloaked.GraphicsDeviceManager.GraphicsDevice, size, size);
                     Color[] data = new Color[size * size];
                     for (int i = 0; i < size * size; i++) data[i] = Color.White;
+                    texture.SetData(data);
                 }
-                texture = Cloaked.Content.Load<Texture2D>(fileName);
+                else
+                {
+                    texture = Cloaked.Content.Load<Texture2D>(fileName);
+                }
                 Textures.Add(fileName, texture);
             }
         }
