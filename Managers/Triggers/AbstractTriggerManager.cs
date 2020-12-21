@@ -9,7 +9,7 @@ namespace Clkd.Managers
     {
         public AbstractTriggerManager() : base(canUpdate: true) { }
 
-        public abstract void Subscribe(string eventName, ITrigger trigger);
+        public abstract int Subscribe(string eventName, ITrigger trigger);
         public abstract void Unsubscribe(string eventName, int index);
         public abstract void Publish(string eventName);
         public abstract override void Update(GameTime gameTime);

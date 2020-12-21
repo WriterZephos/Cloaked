@@ -12,7 +12,7 @@ namespace Clkd.Managers
         public Dictionary<string, List<ITrigger>> Subscriptions { get; set; } = new Dictionary<string, List<ITrigger>>();
         public Queue<string> Events { get; set; } = new Queue<string>();
 
-        public override void Subscribe(string eventName, ITrigger trigger)
+        public override int Subscribe(string eventName, ITrigger trigger)
         {
             List<ITrigger> trigger_list =
                 Subscriptions.ContainsKey(eventName) ?
@@ -21,6 +21,7 @@ namespace Clkd.Managers
             int index = trigger_list.Count;
             trigger_list.Add(trigger);
             Subscriptions[eventName] = trigger_list;
+            return index;
         }
 
         public override void Unsubscribe(string eventName, int index)
