@@ -22,6 +22,7 @@ namespace Clkd.Assets
         public TimeSpan Duration { get; set; }
         public TimeSpan DurationSinceLastPress { get; set; }
         public TimeSpan DurationSinceLastExecute { get; set; }
+        public MouseStateWrapper MouseState { get; set; }
 
         public MouseStatus()
         {
@@ -44,10 +45,10 @@ namespace Clkd.Assets
             return ((PreviouslyPressed != Pressed) && !Pressed);
         }
 
-        public void Update(bool pressed, GameTime gameTime)
+        public void Update(bool pressed, GameTime gameTime, MouseStateWrapper state)
         {
             Pressed = pressed;
-
+            MouseState = state;
             Duration = PreviouslyPressed && Pressed ? Duration += gameTime.ElapsedGameTime : default(TimeSpan);
             DurationSinceLastPress = !PreviouslyPressed && !Pressed ? Duration += gameTime.ElapsedGameTime : default(TimeSpan);
             DurationSinceLastExecute = PreviouslyPressed && Pressed ? Duration += gameTime.ElapsedGameTime : default(TimeSpan);

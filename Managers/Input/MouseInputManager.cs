@@ -63,7 +63,7 @@ namespace Clkd.Managers
                     }
                 }
                 // Set updated status.
-                InputStatuses[mm].Update(pressed, gameTime);
+                InputStatuses[mm].Update(pressed, gameTime, state);
 
                 InputStatuses[mm].MouseMapping = mm;
                 // Evaluate Input Trigger in all cases - this executes any conditions
