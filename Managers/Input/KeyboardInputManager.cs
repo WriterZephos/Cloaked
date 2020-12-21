@@ -87,6 +87,7 @@ namespace Clkd.Managers
                     InputStatus[km].DurationSinceLastExecute += gameTime.ElapsedGameTime :
                     default(TimeSpan);
 
+                InputStatus[km].KeyMapping = km;
                 // Evaluate Input Trigger in all cases
                 if (InputTriggers[km].Evaluate(InputStatus[km]))
                 {

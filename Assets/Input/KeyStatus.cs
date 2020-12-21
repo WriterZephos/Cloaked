@@ -6,6 +6,7 @@ namespace Clkd.Assets
 {
     public class KeyStatus : IInputStatus
     {
+        public KeyMapping KeyMapping { get; set; }
         public bool PreviouslyPressed { get; set; }
         private bool _pressed;
         public bool Pressed

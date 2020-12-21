@@ -7,9 +7,9 @@ namespace Clkd.Assets
     public class KeyTrigger : IInputTrigger<KeyStatus>
     {
         public Func<KeyStatus, bool> TriggerCondition { get; set; }
-        public Action TriggerAction { get; set; }
+        public Action<KeyStatus> TriggerAction { get; set; }
 
-        public KeyTrigger(Func<KeyStatus, bool> triggerCondition, Action triggerAction)
+        public KeyTrigger(Func<KeyStatus, bool> triggerCondition, Action<KeyStatus> triggerAction)
         {
             TriggerCondition = triggerCondition;
             TriggerAction = triggerAction;
@@ -19,7 +19,7 @@ namespace Clkd.Assets
         {
             if (TriggerCondition(status))
             {
-                TriggerAction();
+                TriggerAction(status);
                 return true;
             }
             return false;
