@@ -14,12 +14,6 @@ namespace Clkd.Main
         public bool CanGetRenderables { get; private set; }
         public bool CanDraw { get; private set; }
 
-
-        public T CastTo<T>() where T : AbstractComponent
-        {
-            return (T)this;
-        }
-
         public AbstractComponent(bool canUpdate = false, bool canGetRenderables = false, bool canDraw = false)
         {
             CanUpdate = canUpdate;
@@ -40,6 +34,11 @@ namespace Clkd.Main
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             throw new NotImplementedException();
+        }
+
+        public T CastTo<T>() where T : AbstractComponent
+        {
+            return (T)this;
         }
     }
 }
