@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Clkd.Assets.Interfaces;
+using Microsoft.Xna.Framework;
 
 namespace Clkd.Assets
 {
@@ -20,6 +21,7 @@ namespace Clkd.Assets
             }
         }
         public TimeSpan Duration { get; set; }
+        public TimeSpan DurationSinceLastPress { get; set; }
         public TimeSpan DurationSinceLastExecute { get; set; }
 
         public KeyStatus()
@@ -41,6 +43,20 @@ namespace Clkd.Assets
         public bool KeyReleased()
         {
             return ((PreviouslyPressed != Pressed) && !Pressed);
+        }
+
+        public void Update(bool pressed, GameTime gameTime)
+        {
+            Pressed = pressed;
+
+            Duration = PreviouslyPressed && Pressed ? Duration += gameTime.ElapsedGameTime : default(TimeSpan);
+            DurationSinceLastPress = !PreviouslyPressed && !Pressed ? Duration += gameTime.ElapsedGameTime : default(TimeSpan);
+            DurationSinceLastExecute = PreviouslyPressed && Pressed ? Duration += gameTime.ElapsedGameTime : default(TimeSpan);
+        }
+
+        public void ResetDurationSinceLastExectute()
+        {
+            DurationSinceLastExecute = default(TimeSpan);
         }
     }
 }
