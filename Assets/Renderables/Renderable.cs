@@ -1,9 +1,7 @@
 ﻿using System;
-
+using Clkd.Main;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
-using Clkd.Main;
 
 namespace Clkd.Assets
 {

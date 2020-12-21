@@ -1,21 +1,20 @@
-﻿using System;
-
+using System;
 using Clkd.Assets.Interfaces;
 
 namespace Clkd.Assets
 {
-    public class KeyTrigger : IInputTrigger<KeyStatus>
+    public class GenericInputTrigger<T> : IInputTrigger<T> where T : IInputStatus
     {
-        public Func<KeyStatus, bool> TriggerCondition { get; set; }
-        public Action<KeyStatus> TriggerAction { get; set; }
+        public Func<T, bool> TriggerCondition { get; set; }
+        public Action<T> TriggerAction { get; set; }
 
-        public KeyTrigger(Func<KeyStatus, bool> triggerCondition, Action<KeyStatus> triggerAction)
+        public GenericInputTrigger(Func<T, bool> triggerCondition, Action<T> triggerAction)
         {
             TriggerCondition = triggerCondition;
             TriggerAction = triggerAction;
         }
 
-        public bool Evaluate(KeyStatus status)
+        public bool Evaluate(T status)
         {
             if (TriggerCondition(status))
             {
