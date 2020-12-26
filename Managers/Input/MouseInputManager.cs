@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Clkd.Managers
 {
-    public class MouseInputManager : AbstractInputManager<AbstractInputTrigger<KeyStatus>, KeyStatus>
+    public class MouseInputManager : AbstractInputManager<AbstractInputTrigger<MouseStatus>, MouseStatus>
     {
         public Dictionary<MouseMapping, MouseStatus> InputStatuses { get; private set; } = new Dictionary<MouseMapping, MouseStatus>();
         public List<MouseMapping> InputMappings { get; set; } = new List<MouseMapping>();
