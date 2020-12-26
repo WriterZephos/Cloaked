@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework;
 
 namespace Clkd.Assets
 {
-    public class KeyStatus : IInputStatus
+    public class KeyStatus : EventArgs, IInputStatus
     {
         public KeyMapping KeyMapping { get; set; }
         public bool PreviouslyPressed { get; set; }

@@ -9,13 +9,16 @@ using Clkd.Assets.Interfaces;
 
 namespace Clkd.Managers
 {
-    public class KeyboardInputManager : AbstractInputManager<IInputTrigger<KeyStatus>, KeyStatus>
+    public class KeyboardInputManager : AbstractInputManager<AbstractInputTrigger<KeyStatus>, KeyStatus>
     {
         public Dictionary<KeyMapping, KeyStatus> InputStatuses { get; private set; } = new Dictionary<KeyMapping, KeyStatus>();
         public List<KeyMapping> InputMappings { get; set; } = new List<KeyMapping>();
-        public Dictionary<KeyMapping, IInputTrigger<KeyStatus>> InputTriggers { get; set; } = new Dictionary<KeyMapping, IInputTrigger<KeyStatus>>();
+        public Dictionary<KeyMapping, AbstractInputTrigger<KeyStatus>> InputTriggers { get; set; } = new Dictionary<KeyMapping, AbstractInputTrigger<KeyStatus>>();
 
-        public KeyboardInputManager RegisterKeyMapping(KeyMapping mapping, IInputTrigger<KeyStatus> trigger)
+        // TODO: Refactor this so that identical mappings are handled more efficiently and multiple triggers can be
+        // associated with the same mapping, and all of them get evaluated with the same keystatus, etc.
+        // Also refactor triggers to use c# events.
+        public KeyboardInputManager RegisterKeyMapping(KeyMapping mapping, AbstractInputTrigger<KeyStatus> trigger)
         {
             InputMappings.Add(mapping);
             InputStatuses.Add(mapping, new KeyStatus());
