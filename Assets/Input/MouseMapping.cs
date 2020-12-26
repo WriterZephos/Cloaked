@@ -14,18 +14,18 @@ namespace Clkd.Assets
 
     public class MouseMapping
     {
-        public List<MouseButton> Buttons { get; set; }
+        public HashSet<MouseButton> Buttons { get; set; }
         public bool AnyButton { get; set; }
         public bool NoButton { get; set; }
         public string ActionName { get; set; }
 
         public MouseMapping(string actionName, params MouseButton[] buttons)
         {
-            Buttons = new List<MouseButton>(buttons);
+            Buttons = new HashSet<MouseButton>(buttons);
             ActionName = actionName;
         }
 
-        public MouseMapping(string actionName, List<MouseButton> buttons)
+        public MouseMapping(string actionName, HashSet<MouseButton> buttons)
         {
             Buttons = buttons;
             ActionName = actionName;

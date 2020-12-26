@@ -6,17 +6,17 @@ namespace Clkd.Assets
 {
     public class KeyMapping
     {
-        public List<Keys> Keys { get; set; }
+        public HashSet<Keys> Keys { get; set; }
         public bool AnyKey { get; set; }
         public string ActionName { get; set; }
 
         public KeyMapping(string actionName, params Keys[] keys)
         {
-            Keys = new List<Keys>(keys);
+            Keys = new HashSet<Keys>(keys);
             ActionName = actionName;
         }
 
-        public KeyMapping(string actionName, List<Keys> keys)
+        public KeyMapping(string actionName, HashSet<Keys> keys)
         {
             Keys = keys;
             ActionName = actionName;
