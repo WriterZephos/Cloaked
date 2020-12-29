@@ -17,10 +17,10 @@ namespace Clkd.Managers
 
         // TODO: Refactor this so that identical mappings are handled more efficiently and multiple triggers can be
         // associated with the same mapping, and all of them get evaluated with the same keystatus, etc.
-        // Also refactor triggers to use c# events.
         public KeyboardInputManager RegisterKeyMapping(KeyMapping mapping, AbstractInputTrigger<KeyStatus> trigger)
         {
             InputMappings.Add(mapping);
+            InputMappings.Sort();
             InputStatuses.Add(mapping, new KeyStatus());
             InputTriggers.Add(mapping, trigger);
             return this;

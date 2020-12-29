@@ -56,10 +56,15 @@ namespace Clkd.Assets
         {
             if (other == null) return 1;
 
+            // This Renderable will follow the other in rendering order, so lower 
+            // z values are renderd first.
             if (RenderableCoordinate.Z > other.RenderableCoordinate.Z) return 1;
 
-            if (other.RenderableCoordinate.Z > RenderableCoordinate.Z) return -1;
+            // This Renderable will go before the other in rendering order, so lower 
+            // z values are renderd first.
+            if (RenderableCoordinate.Z < other.RenderableCoordinate.Z) return -1;
 
+            // The two Renderables will be sorted by their TextureIds.
             return SpriteCoordinate.TextureId.CompareTo(other.SpriteCoordinate.TextureId);
         }
 

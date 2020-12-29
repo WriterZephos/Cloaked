@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 
@@ -12,12 +13,21 @@ namespace Clkd.Assets
         XButton2
     }
 
-    public class MouseMapping
+    public class MouseMapping : IComparable<MouseMapping>
     {
         public HashSet<MouseButton> Buttons { get; set; }
         public bool AnyButton { get; set; }
         public bool NoButton { get; set; }
         public string ActionName { get; set; }
+        private int _priority;
+        public int Priority
+        {
+            get => _priority;
+            private set
+            {
+                _priority = value;
+            }
+        }
 
         public MouseMapping(string actionName, params MouseButton[] buttons)
         {
@@ -51,6 +61,17 @@ namespace Clkd.Assets
             mapping.AnyButton = true;
             mapping.NoButton = true;
             return mapping;
+        }
+
+        public int CompareTo(MouseMapping other)
+        {
+            if (other == null) return 1;
+
+            if (Priority < other.Priority) return 1;
+
+            if (Priority > other.Priority) return -1;
+
+            return 0;
         }
     }
 }

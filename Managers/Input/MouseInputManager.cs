@@ -16,6 +16,7 @@ namespace Clkd.Managers
         public MouseInputManager RegisterMouseMapping(MouseMapping mapping, AbstractInputTrigger<MouseStatus> trigger)
         {
             InputMappings.Add(mapping);
+            InputMappings.Sort();
             InputStatuses.Add(mapping, new MouseStatus());
             InputTriggers.Add(mapping, trigger);
             return this;
