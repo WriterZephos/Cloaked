@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 using Clkd.Assets;
+using Clkd.Managers;
+using Clkd.Assets.Interfaces;
 
 namespace Clkd.Main
 {
@@ -14,6 +16,30 @@ namespace Clkd.Main
         public string Id { get; protected set; }
         public int Rank { get; set; }
         public Dictionary<string, AbstractComponent> Components { get; set; }
+        public KeyboardInputManager DefaultKeyboardInput
+        {
+            get
+            {
+                if (HasComponent<KeyboardInputManager>())
+                {
+                    return GetComponent<KeyboardInputManager>();
+                }
+                AddComponent(new KeyboardInputManager());
+                return GetComponent<KeyboardInputManager>();
+            }
+        }
+        public MouseInputManager DefaultMouseInput
+        {
+            get
+            {
+                if (HasComponent<MouseInputManager>())
+                {
+                    return GetComponent<MouseInputManager>();
+                }
+                AddComponent(new MouseInputManager());
+                return GetComponent<MouseInputManager>();
+            }
+        }
 
         public GameContext(string id)
         {

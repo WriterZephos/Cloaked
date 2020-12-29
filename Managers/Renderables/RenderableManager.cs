@@ -98,11 +98,6 @@ namespace Clkd.Managers
             DrawRenderTarget(spriteBatch, RenderTarget);
         }
 
-        public override List<Renderable> GetRenderables(RenderableCoordinate? renderableCoordinate = null)
-        {
-            throw new System.NotImplementedException();
-        }
-
         private bool IsInScope(Renderable renderable)
         {
             return renderable.RenderableCoordinate.X > LeftBoundary
