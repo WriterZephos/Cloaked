@@ -19,7 +19,7 @@ namespace Clkd.Main
     /// </summary>
     public static class Cloaked
     {
-        public static ContentManager Content { get; private set; }
+        public static Game Game { get; set; }
         public static GraphicsDeviceManager GraphicsDeviceManager { get; set; }
         public static ITextureManager TextureManager { get; set; } = new TextureManager();
         public static ContextManager ContextManager { get; set; }
@@ -32,9 +32,9 @@ namespace Clkd.Main
         /// <param name="content">A ContentManager.</param>
         /// <param name="gameState">An AbstractGameState.</param>
         /// <param name="provider">An AbstractManagerProvider.</param>
-        public static void Initialize(ContentManager content, GraphicsDeviceManager graphicsDeviceManager, ContextManager provider)
+        public static void Initialize(Game game, GraphicsDeviceManager graphicsDeviceManager, ContextManager provider)
         {
-            Content = content;
+            Game = game;
             GraphicsDeviceManager = graphicsDeviceManager;
             ContextManager = provider;
             Initialized = true;

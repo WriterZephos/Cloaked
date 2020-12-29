@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 
 using Clkd.Assets;
 using Clkd.Assets.Interfaces;
+using System.Linq;
 
 namespace Clkd.Managers
 {
@@ -21,7 +22,7 @@ namespace Clkd.Managers
         {
             InputMappings.Add(mapping);
             InputMappings.Sort();
-            InputStatuses.Add(mapping, new KeyStatus());
+            InputStatuses.Add(mapping, new KeyStatus(mapping));
             InputTriggers.Add(mapping, trigger);
             return this;
         }
@@ -37,34 +38,13 @@ namespace Clkd.Managers
         public override void Update(GameTime gameTime)
         {
             KeyboardState state = Keyboard.GetState();
+            Keys[] pressedKeys = state.GetPressedKeys();
 
             foreach (KeyMapping km in InputMappings)
             {
-                // Check if all keys are pressed.
-                bool pressed = true;
-                if (km.AnyKey)
-                {
-                    if (state.GetPressedKeys().Length < 1)
-                    {
-                        pressed = false;
-                    }
-                }
-                else
-                {
-                    foreach (Keys k in km.Keys)
-                    {
-                        if (!state.IsKeyDown(k))
-                        {
-                            pressed = false;
-                            break;
-                        }
-                    }
-                }
-
                 // Set updated status.
-                InputStatuses[km].Update(pressed, gameTime);
+                InputStatuses[km].Update(gameTime, state);
 
-                InputStatuses[km].KeyMapping = km;
                 // Evaluate Input Trigger in all cases - this executes any conditions
                 // and returns true or false indicating whether the condition was met
                 // and the resulting action executed.

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Clkd.Assets;
 using Microsoft.Xna.Framework.Input;
 
@@ -9,7 +10,7 @@ namespace Clkd.Assets
         public MouseState MouseState { get; set; }
 
         public Dictionary<MouseButton, ButtonState> ButtonStates { get; set; }
-
+        public HashSet<MouseButton> PressedButtons { get; set; }
         public int X { get => MouseState.X; }
         public int Y { get => MouseState.Y; }
         public ButtonState LeftButton { get => MouseState.LeftButton; }
@@ -29,7 +30,14 @@ namespace Clkd.Assets
             ButtonStates.Add(MouseButton.RightButton, state.RightButton);
             ButtonStates.Add(MouseButton.XButton1, state.XButton1);
             ButtonStates.Add(MouseButton.XButton2, state.XButton2);
-
+            PressedButtons = new HashSet<MouseButton>(
+                ButtonStates.Where(
+                    (KeyValuePair<MouseButton, ButtonState> kvp) =>
+                    {
+                        return kvp.Value == ButtonState.Pressed;
+                    }
+                ).ToList().Select((KeyValuePair<MouseButton, ButtonState> kvp) => kvp.Key)
+            );
         }
     }
 }

@@ -29,38 +29,37 @@ namespace Clkd.Assets
             }
         }
 
-        public MouseMapping(string actionName, params MouseButton[] buttons)
+        public MouseMapping(string actionName, int priority = 1, bool anyButton = false, bool noButton = false, params MouseButton[] buttons)
         {
             Buttons = new HashSet<MouseButton>(buttons);
             ActionName = actionName;
+            Priority = priority;
+            AnyButton = anyButton;
+            NoButton = noButton;
         }
 
-        public MouseMapping(string actionName, HashSet<MouseButton> buttons)
+        public MouseMapping(string actionName, HashSet<MouseButton> buttons, int priority = 1, bool anyButton = false, bool noButton = false)
         {
             Buttons = buttons;
             ActionName = actionName;
+            Priority = priority;
+            AnyButton = anyButton;
+            NoButton = noButton;
         }
 
-        public static MouseMapping GetMappingToAnyButton(string actionName)
+        public static MouseMapping GetMappingToAnyButton(string actionName, int priority = 1)
         {
-            var mapping = new MouseMapping(actionName);
-            mapping.AnyButton = true;
-            return mapping;
+            return new MouseMapping(actionName, priority, anyButton: true);
         }
 
-        public static MouseMapping GetMappingToNoButton(string actionName)
+        public static MouseMapping GetMappingToNoButton(string actionName, int priority = 1)
         {
-            var mapping = new MouseMapping(actionName);
-            mapping.NoButton = true;
-            return mapping;
+            return new MouseMapping(actionName, priority, noButton: true);
         }
 
-        public static MouseMapping GetConstantMapping(string actionName)
+        public static MouseMapping GetConstantMapping(string actionName, int priority = 1)
         {
-            var mapping = new MouseMapping(actionName);
-            mapping.AnyButton = true;
-            mapping.NoButton = true;
-            return mapping;
+            return new MouseMapping(actionName, priority, true, true);
         }
 
         public int CompareTo(MouseMapping other)

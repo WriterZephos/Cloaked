@@ -36,11 +36,9 @@ namespace Clkd.Assets
             AnyKey = anyKey;
         }
 
-        public static KeyMapping GetMappingToAnyKey(string actionName)
+        public static KeyMapping GetMappingToAnyKey(string actionName, int priority = 1)
         {
-            var mapping = new KeyMapping(actionName);
-            mapping.AnyKey = true;
-            return mapping;
+            return new KeyMapping(actionName, priority, true);
         }
 
         public int CompareTo(KeyMapping other)

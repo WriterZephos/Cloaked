@@ -27,7 +27,7 @@ namespace Clkd.Managers
                 }
                 else
                 {
-                    texture = Cloaked.Content.Load<Texture2D>(fileName);
+                    texture = Cloaked.Game.Content.Load<Texture2D>(fileName);
                 }
                 Textures.Add(fileName, texture);
             }

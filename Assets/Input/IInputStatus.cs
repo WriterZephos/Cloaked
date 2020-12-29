@@ -2,5 +2,7 @@
 {
     public interface IInputStatus
     {
+        bool StopPropogation { get; set; }
+
     }
 }

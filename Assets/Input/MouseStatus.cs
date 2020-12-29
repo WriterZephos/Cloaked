@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Clkd.Assets.Interfaces;
 using Microsoft.Xna.Framework;
 
@@ -22,31 +24,70 @@ namespace Clkd.Assets
         public TimeSpan Duration { get; set; }
         public TimeSpan DurationSinceLastPress { get; set; }
         public TimeSpan DurationSinceLastExecute { get; set; }
-        public MouseStateWrapper MouseState { get; set; }
+        public MouseStateWrapper PreviousMouseState { get; private set; }
+        private MouseStateWrapper _mouseState;
+        public MouseStateWrapper MouseState
+        {
+            get => _mouseState;
+            set
+            {
+                // Preserve last value;
+                PreviousMouseState = MouseState;
+                _mouseState = value;
+            }
+        }
 
-        public MouseStatus()
+        public bool StopPropogation { get; set; }
+
+        public MouseStatus(MouseMapping mouseMapping)
         {
             Pressed = false;
             Duration = default(TimeSpan);
+            MouseMapping = mouseMapping;
         }
 
-        public bool Clicked()
+        public bool IsClicked()
         {
-            return ((PreviouslyPressed != Pressed) && Pressed);
+            return ((PreviouslyPressed != Pressed) && Pressed) || MouseMapping.AnyButton && ClickedButtons().Count() > 0;
         }
 
-        public bool Held()
+        public bool IsHeld()
         {
             return ((PreviouslyPressed == Pressed) && Pressed);
         }
 
-        public bool Released()
+        public bool IsReleased()
         {
-            return ((PreviouslyPressed != Pressed) && !Pressed);
+            return ((PreviouslyPressed != Pressed) && !Pressed) || MouseMapping.AnyButton && ReleasedButtons().Count() > 0;
         }
 
-        public void Update(bool pressed, GameTime gameTime, MouseStateWrapper state)
+        internal void Update(GameTime gameTime, MouseStateWrapper state)
         {
+            bool anyPressed = state.PressedButtons.Count() > 0;
+            bool pressed = true;
+
+            // If both AnyButton and NoButton are true, then
+            // pressed will always be true.
+            if (MouseMapping.AnyButton || MouseMapping.NoButton)
+            {
+                if (!anyPressed && !MouseMapping.NoButton)
+                {
+                    pressed = false;
+                }
+
+                if (anyPressed && !MouseMapping.AnyButton)
+                {
+                    pressed = false;
+                }
+            }
+            else
+            {
+                if (MouseMapping.Buttons.Except(state.PressedButtons).Count() > 0)
+                {
+                    pressed = false;
+                }
+            }
+
             Pressed = pressed;
             MouseState = state;
             Duration = PreviouslyPressed && Pressed ? Duration += gameTime.ElapsedGameTime : default(TimeSpan);
@@ -54,9 +95,29 @@ namespace Clkd.Assets
             DurationSinceLastExecute = PreviouslyPressed && Pressed ? Duration += gameTime.ElapsedGameTime : default(TimeSpan);
         }
 
-        public void ResetDurationSinceLastExectute()
+        internal void ResetDurationSinceLastExectute()
         {
             DurationSinceLastExecute = default(TimeSpan);
+        }
+
+        public IEnumerable<MouseButton> ClickedButtons()
+        {
+            return MouseState.PressedButtons.Except(PreviousMouseState.PressedButtons);
+        }
+
+        public IEnumerable<MouseButton> PressedButtons()
+        {
+            return MouseState.PressedButtons;
+        }
+
+        public IEnumerable<MouseButton> HeldButtons()
+        {
+            return MouseState.PressedButtons.Intersect(PreviousMouseState.PressedButtons);
+        }
+
+        public IEnumerable<MouseButton> ReleasedButtons()
+        {
+            return PreviousMouseState.PressedButtons.Except(MouseState.PressedButtons);
         }
     }
 }
