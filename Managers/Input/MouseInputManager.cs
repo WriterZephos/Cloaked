@@ -11,6 +11,7 @@ namespace Clkd.Managers
         public List<MouseMapping> InputMappings { get; set; } = new List<MouseMapping>();
         public Dictionary<MouseMapping, AbstractInputTrigger<MouseStatus>> InputTriggers { get; set; } = new Dictionary<MouseMapping, AbstractInputTrigger<MouseStatus>>();
 
+        // TODO: store triggers in a list so many triggers can be associated with a single mapping.
         public MouseInputManager RegisterMouseMapping(MouseMapping mapping, AbstractInputTrigger<MouseStatus> trigger)
         {
             InputMappings.Add(mapping);

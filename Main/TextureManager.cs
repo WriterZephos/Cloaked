@@ -33,6 +33,14 @@ namespace Clkd.Managers
             }
         }
 
+        public void LoadTexture(string id, Texture2D texture)
+        {
+            if (!Textures.ContainsKey(id))
+            {
+                Textures.Add(id, texture);
+            }
+        }
+
         public Texture2D GetTexture(string textureID)
         {
             LoadTexture(textureID);

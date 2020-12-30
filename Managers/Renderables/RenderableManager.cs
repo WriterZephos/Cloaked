@@ -94,8 +94,8 @@ namespace Clkd.Managers
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            DrawToRenderTarget(spriteBatch, RenderTarget);
-            DrawRenderTarget(spriteBatch, RenderTarget);
+            DrawToRenderTarget(spriteBatch);
+            DrawRenderTarget(spriteBatch);
         }
 
         private bool IsInScope(Renderable renderable)
@@ -129,7 +129,7 @@ namespace Clkd.Managers
             RenderablesInScope.Sort();
         }
 
-        private void DrawToRenderTarget(SpriteBatch spriteBatch, RenderTarget2D renderTarget)
+        private void DrawToRenderTarget(SpriteBatch spriteBatch)
         {
             GraphicsDeviceManager.GraphicsDevice.SetRenderTarget(RenderTarget);
             spriteBatch.Begin();
@@ -138,7 +138,7 @@ namespace Clkd.Managers
             GraphicsDeviceManager.GraphicsDevice.SetRenderTarget(null);
         }
 
-        private void DrawRenderTarget(SpriteBatch spriteBatch, RenderTarget2D renderTarget)
+        private void DrawRenderTarget(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
             GraphicsDeviceManager.GraphicsDevice.Clear(Color.Red);

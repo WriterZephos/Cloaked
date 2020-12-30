@@ -5,6 +5,7 @@ namespace Clkd.Managers.Interfaces
     public interface ITextureManager
     {
         void LoadTexture(string fileName);
+        void LoadTexture(string id, Texture2D texture);
         Texture2D GetTexture(string textureID);
     }
 }
