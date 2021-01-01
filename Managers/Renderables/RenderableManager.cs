@@ -10,9 +10,23 @@ namespace Clkd.Managers
 {
     public class RenderableManager : AbstractComponent
     {
-        public GraphicsDeviceManager GraphicsDeviceManager { get; set; }
-        public RenderTarget2D RenderTarget { get; set; }
+        public static Dictionary<string, IDrawStrategy> RenderingStrategies { get; set; }
+        public static Dictionary<string, IBatchStrategy> BatchStrategies { get; set; }
+        public static Dictionary<string, IRenderTargetStrategy> RenderTargetStrategies { get; set; }
+        static RenderableManager()
+        {
+            RenderingStrategies = new Dictionary<string, IDrawStrategy>();
+            RenderingStrategies.Add("basic", new BasicRenderingStrategy());
 
+            BatchStrategies = new Dictionary<string, IBatchStrategy>();
+            BatchStrategies.Add("basic", new BasicBatchStrategy());
+
+            RenderTargetStrategies = new Dictionary<string, IRenderTargetStrategy>();
+            RenderTargetStrategies.Add("null", new NullRenderTargetStrategy());
+        }
+
+        Color? ClearColor { get; set; }
+        public GraphicsDeviceManager GraphicsDeviceManager { get; set; }
         public List<Renderable> RenderablesInScope { get; set; }
         public int RenderMargin { get; set; }
         private int LeftBoundary = 0;
@@ -49,13 +63,7 @@ namespace Clkd.Managers
             GraphicsDeviceManager.PreferredBackBufferHeight = windowHeight;
             GraphicsDeviceManager.ApplyChanges();
 
-            RenderTarget = new RenderTarget2D(
-                GraphicsDeviceManager.GraphicsDevice,
-                GraphicsDeviceManager.GraphicsDevice.PresentationParameters.BackBufferWidth + RenderMargin,
-                GraphicsDeviceManager.GraphicsDevice.PresentationParameters.BackBufferHeight + RenderMargin,
-                false,
-                GraphicsDeviceManager.GraphicsDevice.PresentationParameters.BackBufferFormat,
-                DepthFormat.Depth24);
+            RenderableManager.RenderTargetStrategies.Add("basic", new BasicRenderTargetStrategy(GraphicsDeviceManager.GraphicsDevice, RenderMargin));
         }
 
         public RenderableManager SetWindowSize(int windoWidth, int windowHeight)
@@ -69,13 +77,10 @@ namespace Clkd.Managers
             GraphicsDeviceManager.PreferredBackBufferHeight = WindowHeight;
             GraphicsDeviceManager.ApplyChanges();
 
-            RenderTarget = new RenderTarget2D(
-                GraphicsDeviceManager.GraphicsDevice,
-                GraphicsDeviceManager.GraphicsDevice.PresentationParameters.BackBufferWidth + RenderMargin,
-                GraphicsDeviceManager.GraphicsDevice.PresentationParameters.BackBufferHeight + RenderMargin,
-                false,
-                GraphicsDeviceManager.GraphicsDevice.PresentationParameters.BackBufferFormat,
-                DepthFormat.Depth24);
+            foreach (IRenderTargetStrategy strategy in RenderableManager.RenderTargetStrategies.Values)
+            {
+                strategy.WindowSizeChanged(GraphicsDeviceManager.GraphicsDevice, RenderMargin);
+            }
 
             return this;
         }
@@ -131,18 +136,55 @@ namespace Clkd.Managers
 
         private void DrawToRenderTarget(SpriteBatch spriteBatch)
         {
-            GraphicsDeviceManager.GraphicsDevice.SetRenderTarget(RenderTarget);
-            spriteBatch.Begin();
-            RenderablesInScope.ForEach((r) => r.Draw(spriteBatch));
-            spriteBatch.End();
+            string currentBatchStrategy = null;
+            string currentRenderTargetStrategy = null;
+            RenderablesInScope.ForEach(
+                (r) =>
+                {
+                    currentRenderTargetStrategy = SetRenderTarget(currentRenderTargetStrategy, r);
+                    currentBatchStrategy = DrawRenderable(currentBatchStrategy, spriteBatch, r);
+                }
+            );
+            BatchStrategies[currentBatchStrategy].End(spriteBatch);
             GraphicsDeviceManager.GraphicsDevice.SetRenderTarget(null);
+        }
+
+        private string SetRenderTarget(string currentRenderTargetStrategy, Renderable renderable)
+        {
+            if (currentRenderTargetStrategy != renderable.RenderTargetStrategy)
+            {
+                RenderTargetStrategies[renderable.RenderTargetStrategy].SetRenderTarget(GraphicsDeviceManager.GraphicsDevice);
+            }
+            return renderable.RenderTargetStrategy;
+        }
+
+        private string DrawRenderable(string currentBatchStrategy, SpriteBatch spriteBatch, Renderable renderable)
+        {
+            if (currentBatchStrategy == null)
+            {
+                BatchStrategies[renderable.BatchStrategy].Begin(spriteBatch);
+            }
+            else if (currentBatchStrategy != renderable.BatchStrategy)
+            {
+                BatchStrategies[currentBatchStrategy].End(spriteBatch);
+                BatchStrategies[renderable.BatchStrategy].Begin(spriteBatch);
+            }
+
+            RenderingStrategies[renderable.DrawStrategy].Draw(renderable, spriteBatch);
+            return renderable.BatchStrategy;
         }
 
         private void DrawRenderTarget(SpriteBatch spriteBatch)
         {
-            spriteBatch.Begin();
-            GraphicsDeviceManager.GraphicsDevice.Clear(Color.Red);
-            spriteBatch.Draw(RenderTarget, ViewPort, Camera.ViewRectangle, Color.White);
+            if (ClearColor != null)
+            {
+                GraphicsDeviceManager.GraphicsDevice.Clear(ClearColor.Value);
+            }
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+            foreach (IRenderTargetStrategy strategy in RenderableManager.RenderTargetStrategies.Values)
+            {
+                strategy.DrawRenderTarget(spriteBatch, ViewPort, Camera.ViewRectangle, Color.White);
+            }
             spriteBatch.End();
         }
     }
