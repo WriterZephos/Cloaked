@@ -7,5 +7,7 @@ namespace Clkd.Managers.Interfaces
         void LoadTexture(string fileName);
         void LoadTexture(string id, Texture2D texture);
         Texture2D GetTexture(string textureID);
+        void LoadSpriteFont(string spriteFontID);
+        SpriteFont GetSpriteFont(string spriteFontID);
     }
 }

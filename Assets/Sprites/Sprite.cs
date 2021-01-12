@@ -25,10 +25,10 @@ namespace Clkd.Assets
             SpriteCoordinate = new SpriteCoordinate("generic_white", 0, 0, 100, 100, color);
         }
 
-        public override List<Renderable> GetRenderables(RenderableCoordinate? renderableCoordinate = null)
+        public override List<IRenderable> GetRenderables(RenderableCoordinate? renderableCoordinate = null)
         {
             return renderableCoordinate.HasValue ?
-                new List<Renderable>() { new Renderable(SpriteCoordinate, renderableCoordinate.Value, IsOffset, DrawStrategy, BatchStrategy, RenderTargetStrategy) } : null;
+                new List<IRenderable>() { new Renderable2D(SpriteCoordinate, renderableCoordinate.Value, IsOffset, DrawStrategy, BatchStrategy, RenderTargetStrategy) } : null;
         }
     }
 }

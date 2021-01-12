@@ -1,4 +1,6 @@
-﻿namespace Clkd.Assets
+﻿using Microsoft.Xna.Framework;
+
+namespace Clkd.Assets
 {
     public struct RenderableCoordinate
     {
@@ -53,6 +55,11 @@
         public int GetDrawY()
         {
             return IsOffset ? Y - HalfHeight : Y;
+        }
+
+        public Vector2 ToVector2()
+        {
+            return new Vector2(X, Y);
         }
     }
 }

@@ -61,6 +61,18 @@ namespace Clkd.Assets
             return ((PreviouslyPressed != Pressed) && !Pressed) || MouseMapping.AnyButton && ReleasedButtons().Count() > 0;
         }
 
+        public bool IsDragged()
+        {
+            return ((PreviouslyPressed == Pressed) && Pressed)
+                && (PreviousMouseState.X != MouseState.X || PreviousMouseState.Y != MouseState.Y);
+        }
+
+        public bool IsScrolled()
+        {
+            if (PreviousMouseState == null) return false;
+            return MouseState.ScrollWheelValue != PreviousMouseState.ScrollWheelValue;
+        }
+
         internal void Update(GameTime gameTime, MouseStateWrapper state)
         {
             bool anyPressed = state.PressedButtons.Count() > 0;
@@ -102,7 +114,8 @@ namespace Clkd.Assets
 
         public IEnumerable<MouseButton> ClickedButtons()
         {
-            return MouseState.PressedButtons.Except(PreviousMouseState.PressedButtons);
+            if (PreviousMouseState == null) return MouseState.PressedButtons;
+            else return MouseState.PressedButtons.Except(PreviousMouseState.PressedButtons);
         }
 
         public IEnumerable<MouseButton> PressedButtons()
@@ -112,11 +125,13 @@ namespace Clkd.Assets
 
         public IEnumerable<MouseButton> HeldButtons()
         {
-            return MouseState.PressedButtons.Intersect(PreviousMouseState.PressedButtons);
+            if (PreviousMouseState == null) return MouseState.PressedButtons;
+            else return MouseState.PressedButtons.Intersect(PreviousMouseState.PressedButtons);
         }
 
         public IEnumerable<MouseButton> ReleasedButtons()
         {
+            if (PreviousMouseState == null) return new HashSet<MouseButton>();
             return PreviousMouseState.PressedButtons.Except(MouseState.PressedButtons);
         }
     }

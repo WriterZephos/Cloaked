@@ -11,6 +11,6 @@ namespace Clkd.State
     {
         public AbstractGameState() : base(canUpdate: true, canGetRenderables: true) { }
         public abstract override void Update(GameTime gameTime);
-        public abstract override List<Renderable> GetRenderables(RenderableCoordinate? renderableCoordinate = null);
+        public abstract override List<IRenderable> GetRenderables(RenderableCoordinate? renderableCoordinate = null);
     }
 }

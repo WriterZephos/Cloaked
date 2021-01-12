@@ -38,12 +38,12 @@ namespace Clkd.State
             }
         }
 
-        public override List<Renderable> GetRenderables(RenderableCoordinate? renderableCoordinate = null)
+        public override List<IRenderable> GetRenderables(RenderableCoordinate? renderableCoordinate = null)
         {
             Dictionary<string, AbstractComponent> contextualComponents =
                 ContextualStates[Cloaked.ContextManager.GetContext().Id];
 
-            List<Renderable> renderables = new List<Renderable>();
+            List<IRenderable> renderables = new List<IRenderable>();
             foreach (KeyValuePair<string, AbstractComponent> kvp in contextualComponents)
             {
                 if (kvp.Value.CanGetRenderables)

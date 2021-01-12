@@ -68,12 +68,12 @@ namespace Clkd.Main
                 .ToList().ForEach((c) => c.Draw(spriteBatch));
         }
 
-        public List<Renderable> GetRenderables()
+        public List<IRenderable> GetRenderables()
         {
             return Components.Where(kvp => kvp.Value.CanGetRenderables)
                 .Select(kvp => kvp.Value.GetRenderables())
                 .Where((list) => list != null).Aggregate(
-                    new List<Renderable>(),
+                    new List<IRenderable>(),
                     (finalList, list) =>
                     {
                         finalList.AddRange(list);

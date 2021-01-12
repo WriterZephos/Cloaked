@@ -26,7 +26,7 @@ namespace Clkd.Main
             throw new NotImplementedException();
         }
 
-        public virtual List<Renderable> GetRenderables(RenderableCoordinate? renderableCoordinate = null)
+        public virtual List<IRenderable> GetRenderables(RenderableCoordinate? renderableCoordinate = null)
         {
             throw new NotImplementedException();
         }

@@ -14,9 +14,9 @@ namespace Clkd.State
         public Dictionary<string, Trigger> Triggers { get; set; } = new Dictionary<string, Trigger>();
         public Dictionary<string, AbstractComponent> StateComponents { get; set; } = new Dictionary<string, AbstractComponent>();
 
-        public override List<Renderable> GetRenderables(RenderableCoordinate? renderableCoordinate = null)
+        public override List<IRenderable> GetRenderables(RenderableCoordinate? renderableCoordinate = null)
         {
-            List<Renderable> renderables = new List<Renderable>();
+            List<IRenderable> renderables = new List<IRenderable>();
             foreach (KeyValuePair<string, AbstractComponent> kvp in StateComponents)
             {
                 if (kvp.Value.CanGetRenderables)

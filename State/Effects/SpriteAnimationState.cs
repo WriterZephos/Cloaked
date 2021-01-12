@@ -11,15 +11,15 @@ namespace Clkd.State
     {
         public SpriteAnimation Animation
         {
-            get => (SpriteAnimation) Effect;
+            get => (SpriteAnimation)Effect;
             set => Effect = value;
         }
 
         public int CurrentFrame { get; set; }
         public RenderableCoordinate RenderableCoordinate { get; set; }
 
-        public SpriteAnimationState(SpriteAnimation animation, int currentFrame = 0) 
-            : base(animation, canUpdate: true, canGetRenderables: true) 
+        public SpriteAnimationState(SpriteAnimation animation, int currentFrame = 0)
+            : base(animation, canUpdate: true, canGetRenderables: true)
         {
             CurrentFrame = currentFrame;
         }
@@ -33,13 +33,13 @@ namespace Clkd.State
             }
         }
 
-        public override List<Renderable> GetRenderables(RenderableCoordinate? renderableCoordinate = null)
+        public override List<IRenderable> GetRenderables(RenderableCoordinate? renderableCoordinate = null)
         {
             if (Completed && !Animation.HoldLastFrame) return null;
 
             SpriteCoordinate spriteCoordinate = Animation.Frames[CurrentFrame];
-            return new List<Renderable>() {
-                new Renderable(spriteCoordinate, RenderableCoordinate)
+            return new List<IRenderable>() {
+                new Renderable2D(spriteCoordinate, RenderableCoordinate)
             };
         }
 

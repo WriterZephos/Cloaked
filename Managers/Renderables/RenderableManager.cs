@@ -16,7 +16,8 @@ namespace Clkd.Managers
         static RenderableManager()
         {
             RenderingStrategies = new Dictionary<string, IDrawStrategy>();
-            RenderingStrategies.Add("basic", new BasicRenderingStrategy());
+            RenderingStrategies.Add("basic", new Renderable2DDrawStrategy());
+            RenderingStrategies.Add("string", new StringRenderableDrawStrategy());
 
             BatchStrategies = new Dictionary<string, IBatchStrategy>();
             BatchStrategies.Add("basic", new BasicBatchStrategy());
@@ -27,7 +28,7 @@ namespace Clkd.Managers
 
         Color? ClearColor { get; set; }
         public GraphicsDeviceManager GraphicsDeviceManager { get; set; }
-        public List<Renderable> RenderablesInScope { get; set; }
+        public List<IRenderable> RenderablesInScope { get; set; }
         public int RenderMargin { get; set; }
         private int LeftBoundary = 0;
         private int RightBoundary = 0;
@@ -48,7 +49,7 @@ namespace Clkd.Managers
             int windoWidth = 500,
             int windowHeight = 500) : base(true, false, true)
         {
-            RenderablesInScope = new List<Renderable>();
+            RenderablesInScope = new List<IRenderable>();
             Camera = camera;
 
             RenderMargin = renderMargin;
@@ -103,7 +104,7 @@ namespace Clkd.Managers
             DrawRenderTarget(spriteBatch);
         }
 
-        private bool IsInScope(Renderable renderable)
+        private bool IsInScope(IRenderable renderable)
         {
             return renderable.RenderableCoordinate.X > LeftBoundary
                 && renderable.RenderableCoordinate.X < RightBoundary
@@ -145,11 +146,11 @@ namespace Clkd.Managers
                     currentBatchStrategy = DrawRenderable(currentBatchStrategy, spriteBatch, r);
                 }
             );
-            BatchStrategies[currentBatchStrategy].End(spriteBatch);
+            if (currentBatchStrategy != null) BatchStrategies[currentBatchStrategy].End(spriteBatch);
             GraphicsDeviceManager.GraphicsDevice.SetRenderTarget(null);
         }
 
-        private string SetRenderTarget(string currentRenderTargetStrategy, Renderable renderable)
+        private string SetRenderTarget(string currentRenderTargetStrategy, IRenderable renderable)
         {
             if (currentRenderTargetStrategy != renderable.RenderTargetStrategy)
             {
@@ -158,7 +159,7 @@ namespace Clkd.Managers
             return renderable.RenderTargetStrategy;
         }
 
-        private string DrawRenderable(string currentBatchStrategy, SpriteBatch spriteBatch, Renderable renderable)
+        private string DrawRenderable(string currentBatchStrategy, SpriteBatch spriteBatch, IRenderable renderable)
         {
             if (currentBatchStrategy == null)
             {

@@ -4,6 +4,6 @@ namespace Clkd.Assets
 {
     public interface IDrawStrategy
     {
-        void Draw(Renderable renderable, SpriteBatch spriteBatch);
+        void Draw(IRenderable renderable, SpriteBatch spriteBatch);
     }
 }

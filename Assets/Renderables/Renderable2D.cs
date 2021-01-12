@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Clkd.Assets
 {
-    public class Renderable : IComparable<Renderable>
+    public class Renderable2D : IRenderable
     {
         public RenderableCoordinate RenderableCoordinate { get; set; }
         public Texture2D Texture { get; set; }
@@ -17,7 +17,7 @@ namespace Clkd.Assets
         // Constructor for creating a Renderable.
         // Position properties (X and Y) are optional, as they are likely dynamic.
         // textureName, width, and height are all required to render anything to the screen.
-        public Renderable(
+        public Renderable2D(
             SpriteCoordinate spriteCoordinate,
             RenderableCoordinate renderableCoordinate,
             bool isOffset = false,
@@ -43,7 +43,7 @@ namespace Clkd.Assets
             RenderTargetStrategy = renderTargetStrategy;
         }
 
-        public int CompareTo(Renderable other)
+        public int CompareTo(IRenderable other)
         {
             if (other == null) return 1;
 
@@ -55,10 +55,18 @@ namespace Clkd.Assets
             // z values are renderd first.
             if (RenderableCoordinate.Z < other.RenderableCoordinate.Z) return -1;
 
-            if (SpriteCoordinate.TextureId == null) return 1;
-            // The two Renderables will be sorted by their TextureIds.
-            return SpriteCoordinate.TextureId.CompareTo(other.SpriteCoordinate.TextureId);
-        }
+            if (other is Renderable2D renderable)
+            {
+                // Render them in the order they are gathered.
+                if (SpriteCoordinate.TextureId == null || renderable?.SpriteCoordinate.TextureId == null) return -1;
 
+                // The two Renderables will be sorted by their TextureIds.
+                return SpriteCoordinate.TextureId.CompareTo(renderable.SpriteCoordinate.TextureId);
+            }
+            else
+            {
+                return -1;
+            }
+        }
     }
 }
